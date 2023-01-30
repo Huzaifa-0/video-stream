@@ -16,7 +16,10 @@
 <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
 <!-- Styles -->
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+{{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.3/plyr.css" />
+
+    @vite(['resources/js/app.js'])
 </head>
 <body>
 <div id="app">
@@ -51,12 +54,64 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<script src="https://cdn.plyr.io/3.7.3/plyr.js"></script>
 <script>
-    var player = videojs('my-video');
-
-    player.hlsQualitySelector();
+    document.addEventListener("DOMContentLoaded", ()=>{
+        var video = document.getElementById('my-video')
+        var source = "/storage/1HuGcjVdyJY9P8Cr.m3u8"
+        const defaultOptions = {}
+        if(Hls.isSupported()){
+            const hls = new Hls()
+            hls.loadSource(source)
+            hls.on(Hls.Events.MANIFEST_PARSED, function (event, data){
+                const availableQualities = hls.levels.map((l)=> l.height);
+                defaultOptions.controls = [
+                    'play-large', // The large play button in the center
+                    // 'restart', // Restart playback
+                    'rewind', // Rewind by the seek time (default 10 seconds)
+                    'play', // Play/pause playback
+                    'fast-forward', // Fast forward by the seek time (default 10 seconds)
+                    'progress', // The progress bar and scrubber for playback and buffering
+                    'current-time', // The current time of playback
+                    'duration', // The full duration of the media
+                    'mute', // Toggle mute
+                    'volume', // Volume control
+                    'captions', // Toggle captions
+                    'settings', // Settings menu
+                    'pip', // Picture-in-picture (currently Safari only)
+                    'airplay', // Airplay (currently Safari only)
+                    // 'download', // Show a download button with a link to either the current source or a custom URL you specify in your options
+                    'fullscreen', // Toggle fullscreen
+                ];
+                defaultOptions.quality = {
+                    default: availableQualities[0],
+                    options: availableQualities,
+                    forced: true,
+                    onChange: (e) => updateQuality(e)
+                }
+                new Plyr(video, defaultOptions)
+            });
+            hls.attachMedia(video);
+            window.hls = hls
+        }
+        function updateQuality(e){
+            window.hls.levels.forEach((level, levelIndex)=>{
+                if(level.height === e){
+                    window.hls.currentLevelIndex  = levelIndex;
+                }
+            })
+        }
+    })
 </script>
+{{--<script src="https://vjs.zencdn.net/7.21.1/video.min.js"></script>--}}
+{{--<script src="C://xampp//htdocs//vide-streaming//node_modules//videojs-contrib-quality-levels//dist//videojs-contrib-quality-levels.min.js"></script>--}}
+{{--<script src="C://xampp/htdocs//vide-streaming//node_modules//videojs-hls-quality-selector//dist//videojs-hls-quality-selector.min.js"></script>--}}
+{{--<script>--}}
+{{--    var player = videojs('my-video');--}}
+
+{{--    player.hlsQualitySelector();--}}
+{{--</script>--}}
 
 </body>
 </html>

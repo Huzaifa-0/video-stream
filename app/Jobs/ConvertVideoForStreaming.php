@@ -66,6 +66,6 @@ class ConvertVideoForStreaming implements ShouldQueue
         ]);
     }
     private function getCleanFileName($filename){
-        return preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename) . '.mp4';
+        return preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename) . '.m3u8';
     }
 }

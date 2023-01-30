@@ -5,7 +5,8 @@
         <h3 class="text-center">
             Upload Video
         </h3>
-        <form method="post" action="{{ route('upload') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('upload') }}" enctype="multipart/form-data">
+            @csrf
             <div class="form-group">
                 <label for="video-title">Title</label>
                 <input type="text"
@@ -34,7 +35,7 @@
                 <input type="submit" class="btn btn-default">
             </div>
 
-            {{csrf_field()}}
+{{--            {{csrf_field()}}--}}
         </form>
     </div>
 @endSection

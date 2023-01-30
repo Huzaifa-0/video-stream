@@ -53,4 +53,9 @@ class VideoController extends Controller
                 'Your video will be available shortly after we process it'
             );
     }
+
+    public function test(StoreVideoRequest $request){
+        dd('called');
+
+    }
 }

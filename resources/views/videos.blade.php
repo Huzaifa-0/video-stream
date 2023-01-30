@@ -8,7 +8,7 @@
 
         @foreach($videos as $video)
             <div class="row mt-5">
-                <div class="video" >
+                <div style="height: 400px" class="video" >
                     <div class="title">
                         <h4>
                             {{$video->title}}
@@ -17,7 +17,8 @@
                     @if($video->processed)
                         <video src="/storage/{{$video->stream_path}}"
                                class="w-100"
-                               controls></video>
+                               controls
+                        id="my-video"></video>
                     @else
                         <div class="alert alert-info w-100">
                             Video is currently being processed and will be available shortly

@@ -14,15 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/', [VideoController::class, 'index']);
 
     Route::get('/uploader', [VideoController::class, 'uploader'])->name('uploader');
 
     Route::post('/upload', [VideoController::class, 'store'])->name('upload');
-});
+    Route::post('/test', [VideoController::class, 'test'])->name('test');
+
